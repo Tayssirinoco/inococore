@@ -1,8 +1,8 @@
-from sqlalchemy import ForeignKey, Integer,String, Boolean
+from sqlalchemy import ForeignKey, Integer,String, Boolean, null
 from sqlalchemy.sql.schema import Column
 from ..database import Base
-from .associated import association_table
 from sqlalchemy.orm import relationship
+from .associated import association_table
 import pydantic
 
 class Config:
@@ -14,12 +14,13 @@ class User(Base):
 
     id_user = Column(Integer, primary_key=True)
     first_name = Column(String, nullable=False)
-    last_name = Column(String)
+    last_name = Column(String, nullable=True)
     seniority_lvl = Column(Integer, nullable=False)
     associated = Column(Boolean, nullable=False)
     badge = Column(String)
-    manager_id = Column(Integer, ForeignKey("users.id_user"))
+    manager_id = Column(Integer, ForeignKey("users.id_user"), nullable=True)
     #managed_users=relationship("User")
-    tribus_re = relationship(
-        "Tribus", secondary=association_table, back_populates="users_re"
+    
+    tribus = relationship(
+        "Tribus", secondary=association_table, back_populates="users"
     )

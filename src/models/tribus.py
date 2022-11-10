@@ -1,8 +1,8 @@
 from sqlalchemy import Integer,String
 from sqlalchemy.sql.schema import Column
 from ..database import Base
-from .associated import association_table
 from sqlalchemy.orm import relationship
+from .associated import association_table
 import pydantic
 
 class Config:
@@ -14,6 +14,7 @@ class Tribus(Base):
 
     id_tribus = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    users_re = relationship(
-        "User", secondary=association_table, back_populates="tribus_re"
+
+    users = relationship(
+        "User", secondary=association_table, back_populates="tribus"
     )
